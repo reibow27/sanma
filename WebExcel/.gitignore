@@ -1,0 +1,9 @@
+/dest/
+/build/
+/release/
+
+*.class
+*.war
+*.classpath
+
+*.DS_Store

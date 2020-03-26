@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WebExcel" basedir="." default="make_war">
+
+    <!-- プロパティ -->
+    <property environment="env" />
+    <property file="build.properties" />
+  	<property name="web.source.dir" location="src/main/java" />
+	<property name="resource.dir" location="src/main/resources" />
+    <property name="web.build.dir" location="release/classes" />
+	<property name="build.dir" location="build/classes"/>
+	<property name="dest.dir" location="dest" />
+    <property name="lib.dir" location="src/main/webapp/WEB-INF/lib" />
+	<property name="docroot.dir" location="src/main/webapp/" />
+    <property name="webinf.dir" location="src/main/webapp/WEB-INF" />
+
+    <!-- コンパイル・クラスパス -->
+    <path id="web.compile.classpath">
+    	<fileset dir="${lib.dir}">
+    		<include name="**/*.jar"/>
+    	</fileset>
+    </path>
+
+    <!-- コンパイル・Warファイル作成ディレクトリの事前削除 -->
+	<target name="clean">
+        <delete dir="${web.build.dir}" />
+        <delete dir="${dest.dir}" />
+    </target>
+
+    <!-- Warファイル作成ディレクトリの再作成 -->
+	<target name="init" depends="clean">
+        <mkdir dir="${dest.dir}" />
+    </target>
+
+	<!-- コンパイルディレクトリの再作成 -->
+    <target name="init_web" depends="init">
+        <mkdir dir="${web.build.dir}" />
+    </target>
+    <!-- コンパイル -->
+    <target name="compile" depends="init_web">
+        <javac
+            encoding="UTF-8" 
+            debug="${opt.debug}" 
+            verbose="on" 
+            source="1.8"
+        	    target="1.8"
+            destdir="${web.build.dir}">
+            <classpath refid="web.compile.classpath"/>
+            <src path="${web.source.dir}" />
+        </javac>
+        <copy todir="${web.build.dir}" overwrite="true">
+            <fileset dir="${resource.dir}">
+                <include name="*.dicon"/>
+                <include name="*.properties"/>
+            	<include name="**/*.sql"/>
+                <!-- env.txtを含まなければCoolDeployとなります -->
+            </fileset>
+        </copy>
+    </target>
+	
+	<!-- Warファイル作成 -->
+    <target name="make_war" depends="compile">
+        <war destfile="${dest.dir}/${WEBAPP_NAME}.war" webxml="${webinf.dir}/web.xml" >
+            <fileset dir="${docroot.dir}">
+                <include name="WEB-INF/view/**/*.jsp" />
+                <include name="img/*.*" />
+            	<include name="js/*.*" />
+            	<include name="*.css" />
+            </fileset>
+            <webinf dir="${webinf.dir}/">
+                <include name="*.xml" />
+                <include name="*.dtd" />
+                <include name="*.tld" />
+            	<exclude name="web.xml"/>
+            </webinf>
+        	<classes dir="${web.build.dir}" />
+            <lib dir="${lib.dir}">
+                <include name="*.jar" />
+            </lib>
+        </war>
+    </target>
+<!--
+    <target name="javadoc" depends="init">
+        <javadoc destdir="${doc.dir}"  encoding="Windows-31j">
+        	<classpath refid="common.compile.classpath"/>
+        	<classpath refid="web.compile.classpath"/>
+            <classpath path="../SelectPlazaEJB/build/classes"/>
+        	<fileset dir="${web.source.dir}" />
+        </javadoc>
+    </target>
+ -->
+
+</project>

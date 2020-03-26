@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN" 
+	"http://www.seasar.org/dtd/components24.dtd">
+<components>
+  <include path="convention.dicon"/>
+  <include path="aop.dicon"/>
+  <include path="wexcelDao.dicon"/>
+  <include path="dxo.dicon"/>
+  <include path="j2ee.dicon"/>
+  <component name="actionMessagesThrowsInterceptor" class="org.seasar.struts.interceptor.ActionMessagesThrowsInterceptor"/>
+
+  <component class="jp.co.ken.wexcel.dxo.ContentDxo">
+    <aspect>dxo.interceptor</aspect>
+  </component>
+   <component class="jp.co.ken.wexcel.dxo.ItemDxo">
+    <aspect>dxo.interceptor</aspect>
+  </component>
+  
+  <component name="sqlLogRegistry" class="org.seasar.extension.jdbc.SqlLogRegistry">
+  	@org.seasar.extension.jdbc.SqlLogRegistryLocator@getInstance()
+  </component>
+
+</components>

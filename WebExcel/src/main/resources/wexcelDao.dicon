@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+	"http://www.seasar.org/dtd/components21.dtd">
+<components>
+	<include path = "aop.dicon"/>
+  	<include path = "dao.dicon"/>
+    <component class="jp.co.ken.wexcel.dao.ContentDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
+    <component class="jp.co.ken.wexcel.dao.ItemDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
+    <component class="jp.co.ken.wexcel.dao.ItemMstDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
+    <component class="jp.co.ken.wexcel.dao.WebTableDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
+</components>
